@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Form</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/cpt_anything.css">
+</head>
+<body>
+    <section class="contact-page-content sec-pad">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <form action="test-process.php" method="post" enctype="multipart/form-data" class="contact-form row quform contact_form">
+                        <input type="hidden" name="form_page" value="test-form">
+                        <div class="quform-inner"></div>
+                        <div class="quform-elements"></div>
+                        <div class="col-md-6">
+                            <div class="quform-element quform-element-text">
+                                <p>Full Name</p>
+                                <input type="text" name="name" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="quform-element quform-element-text">
+                                <p>Email</p>
+                                <input type="text" name="email" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="quform-element quform-element-text">
+                                <p>Phone Number</p>
+                                <input type="text" name="phone" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="quform-element quform-element-file">
+                                <p>Attachment</p>
+                                <input type="file" name="attachment" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="quform-element quform-element-text">
+                                <p>Message</p>
+                                <textarea name="message"></textarea>
+                                <button type="submit" class="quform-submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="result"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
