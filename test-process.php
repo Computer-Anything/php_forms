@@ -206,6 +206,38 @@ $message = new Quform_Element('message', 'Message');
 $message->addFilter('trim');
 $form->addElement($message);
 
+
+// Add this function to validate reCAPTCHA
+function validateRecaptcha($recaptchaResponse, $secretKey)
+{
+    $url = 'https://www.google.com/recaptcha/api/siteverify';
+    $data = [
+        'secret' => $secretKey,
+        'response' => $recaptchaResponse
+    ];
+
+    $options = [
+        'http' => [
+            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+            'method'  => 'POST',
+            'content' => http_build_query($data),
+        ],
+    ];
+
+    $context  = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+    $response = json_decode($result, true);
+
+    return isset($response['success']) && $response['success'];
+}
+
+// Validate reCAPTCHA before processing the form
+if (!validateRecaptcha($_POST['g-recaptcha-response'], 'your-secret-key')) {
+    $result = array('type' => 'error', 'message' => 'reCAPTCHA validation failed.');
+    echo json_encode($result);
+    exit;
+}
+
 /** END FORM ELEMENT CONFIGURATION **/
 
 function process(Quform $form, array &$config)
