@@ -2,52 +2,110 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Test Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/responsive.css">
     <link rel="stylesheet" href="../css/cpt_anything.css">
+    <style>
+        /* Inline CSS for demonstration purposes */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .contact-page-content {
+            padding: 40px 20px;
+        }
+
+        .contact-form {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .contact-form p {
+            margin: 0 0 5px;
+            font-weight: bold;
+        }
+
+        .contact-form input,
+        .contact-form textarea,
+        .contact-form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        .contact-form button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .contact-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .g-recaptcha {
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
     <section class="contact-page-content sec-pad">
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <form action="test-process.php" method="post" enctype="multipart/form-data" class="contact-form row quform contact_form">
+                    <form action="send-email.php" method="post" enctype="multipart/form-data" class="contact-form">
                         <input type="hidden" name="form_page" value="test-form">
-                        <div class="quform-inner"></div>
-                        <div class="quform-elements"></div>
-                        <div class="col-md-6">
-                            <div class="quform-element quform-element-text">
-                                <p>Full Name</p>
-                                <input type="text" name="name" />
-                            </div>
+
+                        <div>
+                            <p>Full Name</p>
+                            <input type="text" name="name" placeholder="Enter your full name" required />
                         </div>
-                        <div class="col-md-6">
-                            <div class="quform-element quform-element-text">
-                                <p>Email</p>
-                                <input type="text" name="email" />
-                            </div>
+
+                        <div>
+                            <p>Email</p>
+                            <input type="email" name="email" placeholder="Enter your email address" required />
                         </div>
-                        <div class="col-md-6">
-                            <div class="quform-element quform-element-text">
-                                <p>Phone Number</p>
-                                <input type="text" name="phone" />
-                            </div>
+
+                        <div>
+                            <p>Phone Number</p>
+                            <input type="text" name="phone" placeholder="Enter your phone number" />
                         </div>
-                        <div class="col-md-6">
-                            <div class="quform-element quform-element-file">
-                                <p>Attachment</p>
-                                <input type="file" name="attachment" />
-                            </div>
+
+                        <div>
+                            <p>Subject</p>
+                            <input type="text" name="subject" placeholder="Enter the subject" required />
                         </div>
-                        <div class="col-md-12">
-                            <div class="quform-element quform-element-text">
-                                <p>Message</p>
-                                <textarea name="message"></textarea>
-                                <div class="g-recaptcha" data-sitekey="6LcO2AwrAAAAACYOohTmf1kSaKiI-sQBubG5-d6F"></div>
-                                <button type="submit" class="quform-submit">Submit</button>
-                            </div>
+
+                        <div>
+                            <p>Attachment</p>
+                            <input type="file" name="attachment" />
                         </div>
+
+                        <div>
+                            <p>Message</p>
+                            <textarea name="message" placeholder="Enter your message" required></textarea>
+                        </div>
+
+                        <div class="g-recaptcha" data-sitekey="6LcO2AwrAAAAACYOohTmf1kSaKiI-sQBubG5-d6F"></div>
+
+                        <button type="submit">Submit</button>
                     </form>
                     <div class="result"></div>
                 </div>
@@ -57,5 +115,3 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
-
-
