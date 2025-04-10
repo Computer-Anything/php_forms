@@ -63,55 +63,158 @@
         .g-recaptcha {
             margin-bottom: 15px;
         }
+        #form-response {
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        /* Ensure the row fills the viewport height */
+        .contact-page-content .row {
+            min-height: 100vh; /* Full viewport height */
+            display: flex;
+            align-items: center; /* Vertically center content */
+        }
+        /* Styling for the right-side text content */
+        .info-box {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .info-box h2 {
+            font-size: 28px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .info-box h3 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .info-box p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
-    <section class="contact-page-content sec-pad">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    <form action="send-email.php" method="post" enctype="multipart/form-data" class="contact-form">
-                        <input type="hidden" name="form_page" value="test-form">
+<section class="contact-page-content sec-pad">
+    <div class="container">
+        <div class="row">
+            <!-- Left Side: Form -->
+            <div class="col-md-6">
+                <form action="/test-form.php" method="post" enctype="multipart/form-data" class="contact-form-modern" id="contact-form">
+                    <input type="hidden" name="form_page" value="test-form">
 
-                        <div>
-                            <p>Full Name</p>
-                            <input type="text" name="name" placeholder="Enter your full name" required />
-                        </div>
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required />
+                    </div>
 
-                        <div>
-                            <p>Email</p>
-                            <input type="email" name="email" placeholder="Enter your email address" required />
-                        </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" required />
+                    </div>
 
-                        <div>
-                            <p>Phone Number</p>
-                            <input type="text" name="phone" placeholder="Enter your phone number" />
-                        </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" id="phone" name="phone" placeholder="Enter your phone number" />
+                    </div>
 
-                        <div>
-                            <p>Subject</p>
-                            <input type="text" name="subject" placeholder="Enter the subject" required />
-                        </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" placeholder="Enter the subject" required />
+                    </div>
 
-                        <div>
-                            <p>Attachment</p>
-                            <input type="file" name="attachment" />
-                        </div>
+                    <div class="form-group">
+                        <label for="attachment">Attachment</label>
+                        <input type="file" id="attachment" name="attachment" />
+                    </div>
 
-                        <div>
-                            <p>Message</p>
-                            <textarea name="message" placeholder="Enter your message" required></textarea>
-                        </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Enter your message" required></textarea>
+                    </div>
 
+                    <div class="form-group">
                         <div class="g-recaptcha" data-sitekey="6LcO2AwrAAAAACYOohTmf1kSaKiI-sQBubG5-d6F"></div>
+                    </div>
+                    <button type="submit" class="btn-submit">Submit</button>
+                </form>
+                <div id="form-response" style="display: none; font-weight: bold; margin-bottom: 20px;"></div>
+            </div>
 
-                        <button type="submit">Submit</button>
-                    </form>
-                    <div class="result"></div>
+            <!-- Right Side: Text Content -->
+            <div class="col-md-6 d-flex align-items-center">
+                <div class="info-box">
+                    <h2>Computer Anything</h2>
+                    <h3>Developer Form</h3>
+                    <p>
+                        This is a standard SMTP form to send emails over the internet via form submission.
+                    </p>
                 </div>
             </div>
         </div>
-    </section>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    </div>
+</section>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+    document.getElementById("contact-form").addEventListener("submit", async function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const responseDiv = document.getElementById("form-response");
+
+        // Clear previous messages
+        responseDiv.style.display = "none";
+        responseDiv.innerText = "";
+
+        // Check if reCAPTCHA is completed
+        const recaptchaResponse = formData.get("g-recaptcha-response");
+        if (!recaptchaResponse) {
+            responseDiv.style.display = "block";
+            responseDiv.style.color = "red";
+            responseDiv.innerText = "Please complete the reCAPTCHA verification.";
+            return; // Stop form submission
+        }
+
+        try {
+            // Submit the form data to the server
+            const response = await fetch(form.action, {
+                method: "POST",
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Display success message
+                responseDiv.style.display = "block";
+                responseDiv.style.color = "green";
+                responseDiv.innerText = "Your message has been sent successfully.";
+                form.reset(); // Clear the form
+                grecaptcha.reset(); // Reset the reCAPTCHA widget
+            } else {
+                // Display error message
+                responseDiv.style.display = "block";
+                responseDiv.style.color = "red";
+                responseDiv.innerText = result.message || "An error occurred. Please try again.";
+            }
+        } catch (error) {
+            // Handle network or server errors
+            responseDiv.style.display = "block";
+            responseDiv.style.color = "red";
+            responseDiv.innerText = "An error occurred while submitting the form. Please try again.";
+            console.error("Form submission error:", error);
+        }
+    });
+</script>
 </body>
 </html>
