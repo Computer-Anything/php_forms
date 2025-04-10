@@ -2,7 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 // Load environment variables
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -18,10 +18,6 @@ try {
         $email = htmlspecialchars($_POST['email']);
         $phone = htmlspecialchars($_POST['phone']);
         $subject = htmlspecialchars($_POST['subject']);
-        $attachment = $_FILES['attachment'] ?? null;
-        if ($attachment && $attachment['error'] === UPLOAD_ERR_OK) {
-            $mail->addAttachment($attachment['tmp_name'], $attachment['name']);
-        }
         $message = htmlspecialchars($_POST['message']);
         $recaptchaResponse = $_POST['g-recaptcha-response'];
 
@@ -48,14 +44,14 @@ try {
         // Email content
         $mail->setFrom('cpt.anything@gmail.com', 'Tulla Contracting Forms');
         $mail->addAddress('cpt.anything@gmail.com');
-        $mail->addAddress('shlacker2020@outlook.com');
-        $mail->Subject = 'New Test Form Submission';
-        $mail->Body = "You have received a new message from the tullacontracting.com test form:\n\n" .
+        $mail->addAddress('calvin@tullacontractingcorp.com');
+        $mail->addAddress('brodriguez@tullacontractingcorp.com');
+        $mail->Subject = 'New Request-Quote Form Submission';
+        $mail->Body = "You have received a new message from the tullacontracting.com request-quote form:\n\n" .
                       "Name: $name\n" .
                       "Email: $email\n" .
                       "Phone: $phone\n" .
                       "Subject: $subject\n" .
-                      "File Attached: " . ($attachment ? $attachment['name'] : 'No file attached') . "\n\n" .
                       "Message:\n$message";
 
         $mail->send();
