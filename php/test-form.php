@@ -36,9 +36,9 @@ try {
 
         // SMTP configuration
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host = $_ENV['SMTP_HOST'];
         $mail->SMTPAuth = true;
-        $mail->Username = 'cpt.anything@gmail.com';
+        $mail->Username = $_ENV['SMTP_USERNAME'];
         $mail->Password = $_ENV['SMTP_PASSWORD'];
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
