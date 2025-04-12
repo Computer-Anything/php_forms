@@ -48,7 +48,7 @@ try {
         $mail->addAddress('cpt.anything@gmail.com');
         $mail->addAddress('shlacker2020@outlook.com');
         $mail->Subject = 'New Test Form Submission';
-        $mail->Body = "You have received a new message from the tullacontracting.com test form:\n\n" .
+        $mail->Body = "You have received a new message from the PHP test form:\n\n" .
                       "Name: $name\n" .
                       "Email: $email\n" .
                       "File Attached: " . ($attachment ? $attachment['name'] : 'No file attached') . "\n\n" .
